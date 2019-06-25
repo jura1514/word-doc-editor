@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29009.5
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordDocEditor", "WordDocEditor.csproj", "{C605871E-0850-4C71-82B3-042DC0DB7C60}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C605871E-0850-4C71-82B3-042DC0DB7C60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C605871E-0850-4C71-82B3-042DC0DB7C60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C605871E-0850-4C71-82B3-042DC0DB7C60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C605871E-0850-4C71-82B3-042DC0DB7C60}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8DA5430F-460C-4374-A092-B98B407B8FB9}
+	EndGlobalSection
+EndGlobal

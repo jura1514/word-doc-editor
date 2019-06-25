@@ -1,0 +1,12 @@
+.pointer {
+  cursor: pointer;
+}
+
+.dropzone-container {
+  border: 1px solid #ccc;
+  border-radius: 15px;
+}
+
+.mt-15 {
+  margin-top: 15px;
+}
