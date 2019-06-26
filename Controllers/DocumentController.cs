@@ -49,7 +49,7 @@ namespace WordDocEditor.Controllers
 
                     this._documentService.FindBoldAndReplaceWithItalic(firstPageRange);
 
-                    this._documentService.EditPrimaryHeader(document, 5);
+                    this._documentService.AddPageNumberingToHeader(app, document, 5);
 
                     this._documentService.ApplyChangesForDocTables(docRange, document);
 

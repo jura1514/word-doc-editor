@@ -72,21 +72,33 @@ namespace WordDocEditor.Services
             }
         }
 
-        public void EditPrimaryHeader(Document document, int SectionNumber)
+        public void AddPageNumberingToHeader(Application app, Document document, int startPage)
         {
-            var primaryHeader = document.Sections[1].Headers[WdHeaderFooterIndex.wdHeaderFooterPrimary];
-
-            if (primaryHeader != null)
+            var totalPages = document.Content.Information[WdInformation.wdNumberOfPagesInDocument];
+            if ((int)totalPages > startPage)
             {
-                primaryHeader.LinkToPrevious = false;
-                primaryHeader.PageNumbers.StartingNumber = 5;
-                primaryHeader.Range.Font.Size = 12;
-                primaryHeader.Range.Font.Name = "Times New Roman";
+                object missing = System.Type.Missing;
+                app.Selection.GoTo(WdGoToItem.wdGoToPage, WdGoToDirection.wdGoToNext, ref missing, startPage);
+                Range pageNumberRange = app.Selection.Range;
 
-                PageNumber pnPrimary = primaryHeader.PageNumbers.Add(WdPageNumberAlignment.wdAlignPageNumberCenter, true);
-                if (pnPrimary != null)
+                //Insert Next Page section break so that numbering can start at n-specified
+                pageNumberRange.InsertBreak(WdBreakType.wdSectionBreakNextPage);
+
+                Section section = document.Sections[pageNumberRange.Sections[1].Index];
+                HeaderFooter primaryHeader = section.Headers[WdHeaderFooterIndex.wdHeaderFooterPrimary];
+
+                if (primaryHeader != null)
                 {
-                    pnPrimary.Alignment = WdPageNumberAlignment.wdAlignPageNumberCenter;
+                    primaryHeader.LinkToPrevious = false;
+                    primaryHeader.PageNumbers.StartingNumber = startPage;
+                    primaryHeader.Range.Font.Size = 12;
+                    primaryHeader.Range.Font.Name = "Times New Roman";
+
+                    PageNumber pnPrimary = primaryHeader.PageNumbers.Add(WdPageNumberAlignment.wdAlignPageNumberCenter, true);
+                    if (pnPrimary != null)
+                    {
+                        pnPrimary.Alignment = WdPageNumberAlignment.wdAlignPageNumberCenter;
+                    }
                 }
             }
         }

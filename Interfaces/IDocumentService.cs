@@ -16,7 +16,7 @@ namespace WordDocEditor.Interfaces
         void SetWordDocPageMargins(Range docRange, float left, float right, float top, float bottom);
         Range GetPageRange(Application app, Document document, int startPage, int endPage);
         void FindBoldAndReplaceWithItalic(Range docRange);
-        void EditPrimaryHeader(Document document, int SectionNumber);
+        void AddPageNumberingToHeader(Application app, Document document, int startPage);
         void ApplyChangesForDocTables(Range docRange, Document document);
         void ApplyChangesForDocInlineShapes(Range docRange, Document document);
     }
