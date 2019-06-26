@@ -5,8 +5,17 @@ import DocumentService from '../services/documentService';
 import './Home.css';
 
 export class Home extends Component {
+  constructor(props, context) {
+    super(props, context);
+
+    this.state = {};
+  }
+
   onPhotoFileDrop = async files => {
     if (files.length > 0) {
+      const { showLoader, hideLoader } = this.props;
+      showLoader();
+
       const documentService = new DocumentService();
       const fileName = files[0].name;
       const fileContentType = files[0].type;
@@ -28,8 +37,12 @@ export class Home extends Component {
           const { base64 } = wordDoc;
 
           documentService.processDownload(fileName, base64, fileContentType);
+
+          hideLoader();
         })
         .catch(error => {
+          hideLoader();
+
           toast.error(`Could not edit the document - ${error}`, {
             autoClose: true,
             position: toast.POSITION.TOP_CENTER
