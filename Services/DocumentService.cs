@@ -71,5 +71,51 @@ namespace WordDocEditor.Services
                 }
             }
         }
+
+        public void EditPrimaryHeader(Document document, int SectionNumber)
+        {
+            var primaryHeader = document.Sections[1].Headers[WdHeaderFooterIndex.wdHeaderFooterPrimary];
+
+            if (primaryHeader != null)
+            {
+                primaryHeader.LinkToPrevious = false;
+                primaryHeader.PageNumbers.StartingNumber = 5;
+                primaryHeader.Range.Font.Size = 12;
+                primaryHeader.Range.Font.Name = "Times New Roman";
+
+                PageNumber pnPrimary = primaryHeader.PageNumbers.Add(WdPageNumberAlignment.wdAlignPageNumberCenter, true);
+                if (pnPrimary != null)
+                {
+                    pnPrimary.Alignment = WdPageNumberAlignment.wdAlignPageNumberCenter;
+                }
+            }
+        }
+
+        public void ApplyChangesForDocTables(Range docRange, Document document)
+        {
+            for (int i = 1; i <= docRange.Tables.Count; i++)
+            {
+                Paragraph tableNumberParagraph = document.Paragraphs.Add(docRange.Tables[i].Range.Previous(WdUnits.wdParagraph));
+                tableNumberParagraph.Range.Text = $"Table {i}";
+                tableNumberParagraph.Alignment = WdParagraphAlignment.wdAlignParagraphRight;
+
+                docRange.Tables[i].Title = $"Table {i}";
+            }
+        }
+
+        public void ApplyChangesForDocInlineShapes(Range docRange, Document document)
+        {
+            for (int i = 1; i <= docRange.InlineShapes.Count; i++)
+            {
+                var newParAfter = document.Paragraphs.Add(docRange.InlineShapes[i].Range);
+                newParAfter.Range.InsertParagraphAfter();
+
+                Paragraph tableNumberParagraph = document.Paragraphs.Add(docRange.InlineShapes[i].Range.Next(WdUnits.wdParagraph));
+
+                tableNumberParagraph.Range.Text = $"Figure {i}";
+                tableNumberParagraph.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
+                docRange.InlineShapes[i].Title = $"Figure {i}";
+            }
+        }
     }
 }

@@ -49,44 +49,11 @@ namespace WordDocEditor.Controllers
 
                     this._documentService.FindBoldAndReplaceWithItalic(firstPageRange);
 
-                    // primary header -- add page number starting from page 5
-                    var primaryHeader = document.Sections[1].Headers[WdHeaderFooterIndex.wdHeaderFooterPrimary];
+                    this._documentService.EditPrimaryHeader(document, 5);
 
-                    if (primaryHeader != null)
-                    {
-                        primaryHeader.LinkToPrevious = false;
-                        primaryHeader.PageNumbers.StartingNumber = 5;
-                        primaryHeader.Range.Font.Size = 12;
-                        primaryHeader.Range.Font.Name = "Times New Roman";
+                    this._documentService.ApplyChangesForDocTables(docRange, document);
 
-                        PageNumber pnPrimary = primaryHeader.PageNumbers.Add(WdPageNumberAlignment.wdAlignPageNumberCenter, true);
-                        if (pnPrimary != null)
-                        {
-                            pnPrimary.Alignment = WdPageNumberAlignment.wdAlignPageNumberCenter;
-                        }
-                    }
-
-                    // find table and figure and number them
-                    for (int i = 1; i <= docRange.Tables.Count; i++)
-                    {
-                        Paragraph tableNumberParagraph = document.Paragraphs.Add(docRange.Tables[i].Range.Previous(WdUnits.wdParagraph));
-                        tableNumberParagraph.Range.Text = $"Table {i}";
-                        tableNumberParagraph.Alignment = WdParagraphAlignment.wdAlignParagraphRight;
-
-                        docRange.Tables[i].Title = $"Table {i}";
-                    }
-
-                    for (int i = 1; i <= docRange.InlineShapes.Count; i++)
-                    {
-                        var newParAfter = document.Paragraphs.Add(docRange.InlineShapes[i].Range);
-                        newParAfter.Range.InsertParagraphAfter();
-
-                        Paragraph tableNumberParagraph = document.Paragraphs.Add(docRange.InlineShapes[i].Range.Next(WdUnits.wdParagraph));
-                        
-                        tableNumberParagraph.Range.Text = $"Figure {i}";
-                        tableNumberParagraph.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
-                        docRange.InlineShapes[i].Title = $"Figure {i}";
-                    }
+                    this._documentService.ApplyChangesForDocInlineShapes(docRange, document);
 
                     // save changes
                     document.Save();
